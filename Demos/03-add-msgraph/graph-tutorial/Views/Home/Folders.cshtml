@@ -1,0 +1,260 @@
+﻿@model graph_tutorial.Models.CourseFile
+@{
+    ViewBag.Title = "Folders";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+
+<div class="card shadow-lg">
+    <div class="card-body">
+        <h2>
+            @Html.DisplayFor(model => model.Title) - @Html.DisplayFor(model => model.CourseType) - @Html.DisplayFor(model => model.CourseSection) - @Html.DisplayFor(model => model.Term) (@Html.DisplayFor(model => model.CourseProgram))
+        </h2>
+        <div class="row mt-5">
+            <div class="col-8 ">
+                <div style=" display:flex; justify-content:flex-end; align-items: flex-end;">
+
+
+                    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#newForm">
+                        Create New
+                        <i class="fa fa-plus ml-1 pt-1" aria-hidden="true"></i>
+                    </button>
+
+                    <div class="modal fade" id="newForm" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @using (Html.BeginForm("CreateFolder", "Home", FormMethod.Post))
+                                    {
+                                        @*@Html.AntiForgeryToken()*@
+
+                                        <input type="hidden" value="@Html.DisplayFor(m => m.Id)" name="courseId" id="courseId" />
+                                        <div class="form-group">
+                                            <label for="">Folder Name</label>
+                                            <input type="text" name="folder" id="folder" class="form-control w-100" placeholder="" aria-describedby="helpId">
+                                            <small id="helpId" class="text-muted">Enter the name of folder you want to create</small>
+                                        </div>
+                                        <button id="btnSubmit" class="btn btn-dark h-100 w-100" onclick="">Upload</button>
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+
+
+
+
+
+                <div id="folder-1" role="tablist" aria-multiselectable="false">
+
+                    @if (ViewBag.folderInfos != null)
+                    {
+                        foreach (graph_tutorial.Classes.FolderInfo folderInfo in ViewBag.folderInfos)
+                        {
+
+                            <div class="card">
+                                <div class="card-header  bg-dark" role="tab" id="@folderInfo.FolderName.Replace(" ", "").Replace(",", "").Replace("&", "")Header" data-toggle="collapse"
+                                     style="cursor: pointer;color:white; text-decoration: none;" data-parent="#folder-1"
+                                     href="#@folderInfo.FolderName.Replace(" ", "").Replace(",", "").Replace("&", "")" aria-expanded="true" aria-controls="section1ContentId">
+                                    <h5 class="mb-0">
+                                        <a>
+                                            @folderInfo.FolderName
+                                        </a>
+                                        <small>
+                                            <a class="ml-3 text-white" style="text-decoration: underline;"
+                                               href="/Home/File?courseId=@Html.DisplayFor(m => m.Id)&folder=@folderInfo.FolderName">
+                                                Go
+                                                to folder
+                                            </a>
+                                        </small>
+                                        <i class="fa fa-chevron-down text-white float-right pt-1"></i>
+                                    </h5>
+                                </div>
+                                <div id="@folderInfo.FolderName.Replace(" ", "").Replace(",", "").Replace("&", "")" class="collapse in" role="tabpanel" aria-labelledby="@folderInfo.FolderName.Replace(" ", "").Replace(",", "").Replace("&", "")Header">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col">
+                                                @if (folderInfo.FileNames != null && folderInfo.FileNames.Count != 0)
+                                                {
+                                                    <ul class="list-group">
+                                                        @foreach (string fileName in folderInfo.FileNames)
+                                                        {
+                                                            <li class="list-group-item">@fileName</li>
+                                                        }
+                                                    </ul>
+                                                }
+                                                else
+                                                {
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">No files found !</li>
+                                                    </ul>
+                                                }
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+
+
+
+
+                </div>
+
+                <br />
+                <br />
+
+                <button type="button" class="btn btn-dark w-100 btn-lg" data-toggle="modal" data-target="#modelId">
+                    Fill Instructor Feedback
+                </button>
+                <a href="/Home/Submit?id=@Html.DisplayFor(m => m.Id)" type="button" class=" mt-2 btn btn-info w-100 btn-lg">
+                    Submit
+                </a>
+
+                <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Instructor Feedback Form</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">What are the CLOs of the course?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">On a scale of 1-10, with 10 being the highest ranking, how well did the curriculum fulfill CLOs? </label>
+                                                <input type="text" class="form-control" name="scale" id="scale"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Are there any changes to the curriculum that you would suggest in view of the CLOs?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Is the curriculum relevant in view of any scholarly or pedagogical changes in the field? Are there any changes that you would suggest?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">What does the class usually look like e.g., lecture, seminar, group discussions? </label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">How effective has this been in aiding student understanding of the curriculum and their performance in tasks assigned to them? (Do not want to include a scale here)</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Did you use any university resources e.g., library or IT, during this iteration? (Again, no scale here)</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <label for="">Are there any improvements or changes you would suggest to these resources?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">How did the timeline of assignments ensure effective feedback? </label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">What feedback methods did you use to ensure effective feedback?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Please comment on OIR data regarding the timeliness of the feedback?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">Please describe the course’s contribution to the public intellectual life at Habib University (if any)</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">How is student learning assessed? (Some kind of mapping)</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="">How did the classroom setting encourage collaborative thinking in students?</label>
+                                                <input type="text" class="form-control" name="clo" id="clo"
+                                                       aria-describedby="helpId" placeholder="" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" id="save" class="btn btn-dark">Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <center>
+                    <h3>Upload Summary</h3>
+                </center>
+                <br />
+
+                <div class="card bg-danger text-white">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <ul>
+                                <li>“Quizzes” folder empty</li>
+                                <li>“Mid term solution file” might be missing</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+                <br />
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <p class="card-text">
+                            <ul>
+                                <li>5 files in Lecture Notes</li>
+                                <li>1 files in Syllabus</li>
+                                <li>1 files in Attendance</li>
+                                <li>10 files - 3 folders in Assessments</li>
+                                <li>1 files in Complete Result</li>
+                                <li>1 files in Course Evaluation</li>
+                            </ul>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

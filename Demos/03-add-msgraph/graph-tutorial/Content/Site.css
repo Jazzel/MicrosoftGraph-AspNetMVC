@@ -1,14 +1,71 @@
-﻿/* 
-* Copyright (c) Microsoft Corporation. All rights reserved.
-* Licensed under the MIT license.
-*/
-
+﻿@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 body {
-    padding-top: 4.5rem;
+    background-color: #F4F4F4 !important;
 }
 
-.alert-pre {
-    word-wrap: break-word;
-    word-break: break-all;
-    white-space: pre-wrap;
+hr.styled {
+    border: none;
+    height: 20px;
+    width: 100%;
+    height: 50px;
+    margin: 0;
+    border-bottom: 1px solid #e5e5e5;
+    box-shadow: 0 20px 20px -20px #333;
+    margin: -50px auto 0px;
+}
+
+.text-style {
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    font-weight: normal;
+    margin: 0 0 25px;
+}
+
+
+.card.card-cascade.narrower .view.view-cascade {
+    margin-top: -1.25rem;
+    margin-right: 4%;
+    margin-left: 4%;
+    color: #fff !important;
+}
+
+.card.card-cascade .view.view-cascade.gradient-card-header {
+    padding: 1.6rem 1rem;
+    padding-top: 1.6rem;
+    padding-bottom: 1.6rem;
+    color: #fff !important;
+    text-align: center;
+}
+
+.card.card-cascade .view.view-cascade {
+    border-radius: .25rem;
+    -webkit-box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);
+    box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18),0 4px 15px 0 rgba(0,0,0,0.15);
+    color: #fff !important;
+}
+
+.view {
+    position: relative;
+    overflow: hidden;
+    color: #fff !important;
+    cursor: default;
+}
+
+.info-color {
+    color: #fff !important;
+    background-color: #5a5a5a !important;
+}
+
+.pb-3, .py-3 {
+    color: #fff !important;
+    padding-bottom: 1rem !important;
+}
+
+.pt-3, .py-3 {
+    padding-top: 1rem !important;
+    color: #fff !important;
+}
+
+*, ::before, ::after {
+    box-sizing: border-box;
 }

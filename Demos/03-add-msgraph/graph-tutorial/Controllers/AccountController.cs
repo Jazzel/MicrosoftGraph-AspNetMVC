@@ -8,11 +8,20 @@ using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
 using graph_tutorial.TokenStorage;
+using graph_tutorial.Models;
+using System;
+using System.Linq;
 
 namespace graph_tutorial.Controllers
 {
     public class AccountController : Controller
     {
+        ApplicationDbContext db;
+
+        public AccountController()
+        {
+            db = new ApplicationDbContext();
+        }
         public void SignIn()
         {
             if (!Request.IsAuthenticated)
@@ -21,6 +30,10 @@ namespace graph_tutorial.Controllers
                 Request.GetOwinContext().Authentication.Challenge(
                     new AuthenticationProperties { RedirectUri = "/" },
                     OpenIdConnectAuthenticationDefaults.AuthenticationType);
+
+                HttpCookie userIdCookie = new HttpCookie("logUpdated");
+                userIdCookie.Value = "false";
+                Response.Cookies.Add(userIdCookie);
             }
         }
 
@@ -28,6 +41,24 @@ namespace graph_tutorial.Controllers
         {
             if (Request.IsAuthenticated)
             {
+                var userClaims = User.Identity as ClaimsIdentity;
+
+                var name = userClaims?.FindFirst("name")?.Value;
+
+                var user = db.Users.Where(m => m.Name == name).FirstOrDefault();
+
+                if (user != null)
+                {
+                    Log log = new Log()
+                    {
+                        Action = "Logout",
+                        ApplicationUserId = user.Id,
+                        Timestamp = DateTime.Now,
+                    };
+
+                    db.Logs.Add(log);
+                    db.SaveChanges();
+                }
                 var tokenStore = new SessionTokenStore(null,
                     System.Web.HttpContext.Current, ClaimsPrincipal.Current);
 

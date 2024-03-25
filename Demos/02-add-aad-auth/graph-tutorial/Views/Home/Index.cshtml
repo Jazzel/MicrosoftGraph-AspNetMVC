@@ -7,16 +7,38 @@ Licensed under the MIT license.
     ViewBag.Current = "Home";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET Graph Tutorial</h1>
-    <p class="lead">This sample app shows how to use the Microsoft Graph API to access a user's data from ASP.NET</p>
-    @if (Request.IsAuthenticated)
-    {
-        <h4>Welcome @ViewBag.User.DisplayName!</h4>
-        <p>Use the navigation bar at the top of the page to get started.</p>
-    }
-    else
-    {
-        @Html.ActionLink("Click here to sign in", "SignIn", "Account", new { area = "" }, new { @class = "btn btn-primary btn-large" })
-    }
+
+<div class="col-lg-6 d-flex align-items-center justify-content-center">
+    <div class="auth-form-transparent text-left p-3">
+        <div class="brand-logo text-center">
+            <h1 style="font-family:Pacifico">CFMS</h1>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <img class="float-right" src="~/Content/images/auth/HU logo.jpg" height="100px" />
+            </div>
+            <div class="col-6" style="border-left: 1px solid #000">
+                <img class="float-left" src="~/Content/images/auth/HU logo.jpg" height="100px" />
+            </div>
+        </div>
+        <br />
+        <br />
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse rutrum ipsum nisi, malesuada tempor diam fermentum eu. Etiam accumsan orci purus, non posuere diam faucibus vitae. Etiam accumsan eros dui, eget tristique urna fringilla et. Sed tortor massa, pellentesque eu placerat vel, fringilla a turpis. Praesent aliquam enim ut risus cursus mollis. Donec finibus euismod vehicula. Mauris vitae arcu convallis nibh rutrum tempor eget vitae leo. Vestibulum semper placerat lacus vitae hendrerit. Pellentesque lacinia laoreet odio at semper. Nam quis sapien lacus.
+        </p>
+        @if (Request.IsAuthenticated)
+        {
+            <h4>Welcome @ViewBag.User.DisplayName!</h4>
+            <p>Use the navigation bar at the top of the page to get started.</p>
+        }
+        else
+        {
+            <br/>
+            @Html.ActionLink("Click here to sign in", "SignIn", "Account", new { area = "" }, new { @class = "btn btn-block btn-dark btn-lg font-weight-medium auth-form-btn" })
+        }
+
+    </div>
+</div>
+<div class="col-lg-6 login-half-bg d-flex flex-row shadow-lg" style="background-image: url(../../Content/images/auth/background.jpg);">
+    <p class="text-white font-weight-medium text-center flex-grow align-self-end">Copyright &copy; @DateTime.Now.Year  All rights reserved.</p>
 </div>

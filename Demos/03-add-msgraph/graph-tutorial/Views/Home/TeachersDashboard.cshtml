@@ -1,0 +1,145 @@
+﻿@model graph_tutorial.Models.CourseFile
+@{
+    ViewBag.Title = "TeachersDashboard";
+    Layout = "~/Views/Shared/DashboardLayout.cshtml";
+}
+
+
+<div class="card shadow-lg">
+    <div class="card-body">
+        <div class="container">
+            <div class="card border-dark p-4 mt-5">
+                <div class="card-body"
+                     @if (ViewBag.message != "") {<div class="alert alert-danger">@ViewBag.message</div>
+                     }
+
+                    <form method="POST">
+                        <div class="row">
+                            <div class="col-12 col-md-6">
+                                <div class="form-group">
+                                    <label for="">Instructor</label>
+                                    <input type="text"
+                                           class="form-control"
+                                           placeholder="Instructor"
+                                           value="@ViewBag.userName"
+                                           disabled
+                                           aria-describedby="helpId" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Instructor Program</label>
+                                    <input class="form-control"
+                                           name="instructor-program"
+                                           id="instructor-program"
+                                           disabled
+                                           value="@ViewBag.instructorProgram" />
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <div class="form-group ">
+                                    <label for="">Course Program</label>
+
+                                    @{
+
+                                        List<SelectListItem> courseProgramItems = new List<SelectListItem>();
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "ECE",
+                                            Value = "ECE"
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "SDP",
+                                            Value = "SDP",
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "CH",
+                                            Value = "CH"
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "C&D",
+                                            Value = "C&D"
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "CS",
+                                            Value = "CS"
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "ISciM",
+                                            Value = "ISciM"
+                                        });
+                                        courseProgramItems.Add(new SelectListItem
+                                        {
+                                            Text = "CORE",
+                                            Value = "CORE"
+                                        });
+
+                                        List<SelectListItem> courseTypeItems = new List<SelectListItem>();
+
+                                        courseTypeItems.Add(new SelectListItem
+                                        {
+                                            Text = "Theory",
+                                            Value = "Theory"
+                                        });
+                                        courseTypeItems.Add(new SelectListItem
+                                        {
+                                            Text = "Lab",
+                                            Value = "Lab"
+                                        });
+
+
+                                    }
+                                    @Html.DropDownListFor(m => m.CourseProgram, courseProgramItems, "Select Course Program", new { @class = "form-control", @id = "course-program" })
+                                </div>
+                                <div class="form-group" id="courseType">
+                                    <label for="">Course Program</label>
+
+                                    @Html.DropDownListFor(m => m.CourseType, courseTypeItems, "Select Course Type", new { @class = "form-control" })
+                                </div>
+                                <div class="form-group">
+                                    <label for="">Course</label>
+                                    <select class="form-control" name="course-id" id="course-id">
+
+                                        <option value="">Select Course</option>
+                                        @foreach (dynamic item in ViewBag.data)
+                                        {
+                                            <option value="@item["id"]">@item["name"]</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <center>
+                            <br />
+                            <button type="submit" class="btn w-75 btn-dark">Submit</button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script>
+
+        $("#courseType").hide();
+        $("#course-program").on("change", function () {
+            var selectedValue = $("#course-program").val();
+            if (selectedValue === "CS" || selectedValue === "ECE") {
+                $("#courseType").show();
+            }
+            else {
+                $("#courseType").hide();
+            }
+
+        })
+
+    </script>
+}

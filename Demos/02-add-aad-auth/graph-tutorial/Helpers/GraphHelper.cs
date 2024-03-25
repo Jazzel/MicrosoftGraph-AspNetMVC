@@ -6,6 +6,7 @@ using Microsoft.Graph;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
+
 namespace graph_tutorial.Helpers
 {
     public static class GraphHelper
@@ -21,7 +22,8 @@ namespace graph_tutorial.Helpers
                     }));
 
             var user = await graphClient.Me.Request()
-                .Select(u => new {
+                .Select(u => new
+                {
                     u.DisplayName,
                     u.Mail,
                     u.UserPrincipalName

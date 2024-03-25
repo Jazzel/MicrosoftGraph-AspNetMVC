@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CFMS</title>
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <style>
+        * {
+            font-family: 'Century Gothic';
+        }
+
+        .form-control {
+            border-color: #6F747B !important;
+        }
+
+        .btn-fix {
+            padding: 0;
+            border: none;
+            white-space: normal;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="horizontal-menu">
+            <nav class="navbar top-navbar bg-dark col-lg-12 col-12 p-0">
+                <div class="container">
+                    <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                        <a class="navbar-brand brand-logo text-white" href="/">
+                            <h1 style="font-family:Pacifico">CFMS</h1>
+                        </a>
+                        <a class="navbar-brand brand-logo-mini" href="/">
+                            <img src="../../images/logo-mini.svg"
+                                 alt="logo" />
+                        </a>
+                    </div>
+                    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end justify-content-lg-start">
+                        <ul class="navbar-nav navbar-nav-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                @*using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <li class="nav-item nav-profile dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                                                <i class="fas fa-user-circle" style="font-size:30px;margin-left:-20px !important;"></i>
+                                                <span class="nav-profile-name">Hello @ViewBag.User.DisplayName ! &nbsp; <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
+                                                <a class="dropdown-item" href="/Manage/Index/">
+                                                    <i class="mdi mdi-settings text-dark"><i class="fa fa-cogs" aria-hidden="true"></i></i>
+                                                    Manage
+                                                </a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">
+                                                    <i class="mdi mdi-logout text-dark"><i class="fa fa-sign-out" aria-hidden="true"></i></i>
+                                                    Logout
+                                                </a>
+
+
+                                            </div>
+                                        </li>
+                                    }*@
+                                <li class="nav-item">
+                                    <div style="display: flex; justify-content:center; align-items:center;">
+                                        @if (Request.IsAuthenticated)
+                                        {
+                                            <i class="far fa-user-circle fa-lg rounded-circle align-self-center" style="width: 32px;"></i>
+                                            <h5 class=" mb-0">@ViewBag.name <span>(@ViewBag.role)</span></h5>
+                                        }
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    @Html.ActionLink("Sign Out", "SignOut", "Account", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                            }
+                        </ul>
+                        <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                                data-toggle="horizontal-menu-toggle">
+                            <span class="mdi mdi-menu"></span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <nav class="bottom-navbar">
+                <div class="container">
+                    <ul class="nav page-navigation">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">
+                                <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-home text-dark" aria-hidden="true"></i></i>
+                                <span class="menu-title">Home</span>
+                            </a>
+                        </li>
+                        @if (ViewBag.role == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/Dashboard">
+                                    <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-desktop text-dark" aria-hidden="true"></i></i>
+                                    <span class="menu-title">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/Logs">
+                                    <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-history text-dark" aria-hidden="true"></i></i>
+                                    <span class="menu-title">Logs</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/CourseFiles/Index">
+                                    <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-file text-dark" aria-hidden="true"></i></i>
+                                    <span class="menu-title">Course Files</span>
+                                </a>
+                            </li>
+                        }
+                        @if (ViewBag.role == "Teacher")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/TeachersDashboard">
+                                    <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-desktop text-dar    k" aria-hidden="true"></i></i>
+                                    <span class="menu-title">Dashboard</span>
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Manage/">
+                                <i class="mdi mdi-view-dashboard-outline menu-icon"><i class="fa fa-user text-dark" aria-hidden="true"></i></i>
+                                <span class="menu-title">My Account</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="/Home/Contact/" class="nav-link">
+                                <i class="mdi mdi-image-filter menu-icon"><i class="fa fa-phone text-dark" aria-hidden="true"></i></i>
+                                <span class="menu-title">Contact US</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/Home/About/" class="nav-link">
+                                <i class="mdi mdi-file-document-box-outline menu-icon"><i class="fa fa-info text-dark" aria-hidden="true"></i></i>
+                                <span class="menu-title">About Us</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <div class="main-panel">
+                <div class="content-wrapper">
+
+                    @RenderBody()
+
+
+
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="w-100 clearfix">
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block text-dark">
+                            <i class="fas fa-copyright float-left mr-2" style="font-size:18px;"></i> Copyright © @DateTime.Now.Year <a href="/" target="_blank">CFMS</a>. All rights reserved.
+                        </span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center text-dark">
+                            <i class="fas fa-file mr-2" style="font-size:20px;"></i> Course File Management System
+                        </span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Scripts.Render("~/bundles/jquery")
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>
